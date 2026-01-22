@@ -1,0 +1,25 @@
+/* Oceanic eDNA Explorer - Custom Styles */
+
+/* Remove default Vite styles - using Tailwind and our design system instead */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Additional animations specific to oceanic theme */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

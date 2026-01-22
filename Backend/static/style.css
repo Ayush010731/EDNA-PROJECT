@@ -1,0 +1,743 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+
+:root{
+    --bg: #0a192f;         /* base dark background */
+    --bg-2: #050a1d;       /* gradient top */
+    --text: #eef5ff;       /* base text color */
+    --muted: #ccd6f6;      /* muted text */
+    --card-bg: rgba(255,255,255,0.03);
+    --accent-1: #00f5ff;
+    --accent-2: #00B4DB;
+    --footer-bg: #071428;
+    --footer-text: var(--text);
+}
+
+/* Light theme overrides */
+body.light-theme {
+    --bg: #f1fbff;
+    --bg-2: #eaf6fb;
+    --text: #0b2a3a;
+    --muted: #4b5563;
+    --card-bg: rgba(0,0,0,0.03);
+    --accent-1: #0077a8;
+    --accent-2: #005f85;
+    --footer-bg: #e6fbff;
+    --footer-text: #0b2a3a;
+}
+
+/* -----------------------
+   Base styles
+   ----------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, var(--bg-2) 0%, var(--bg) 40%, #0c2d4d 100%);
+    cursor: none;
+    transition: background .35s ease, color .25s ease;
+}
+
+/* -----------------------
+   Scientific background elements
+   ----------------------- */
+.scientific-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #050a1d 0%, #0a192f 40%, #0c2d4d 100%);
+}
+
+.grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(14, 107, 168, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14, 107, 168, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.3;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0, 245, 255, 0.15);
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* wave-container now only holds fishes; waves removed */
+.wave-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    overflow: visible; /* allow fishes to swim */
+}
+
+/* Fish animations in waves */
+.fish {
+    position: absolute;
+    bottom: 30px;
+    font-size: 24px;
+    animation: swim linear infinite;
+    opacity: 0.7;
+    z-index: 2;
+}
+
+@keyframes swim {
+    0% {
+        transform: translateX(-100px);
+    }
+    100% {
+        transform: translateX(calc(100vw + 100px));
+    }
+}
+
+/* DNA helix wrapper - Now moving left to right */
+.dna-helix {
+    position: absolute;
+    top: 50%;
+    left: -300px;
+    width: 2500px;
+    height: 220px;
+    animation: floatHelix 40s linear infinite;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Moving base pairs (two sides of helix) */
+.base {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-1);
+    box-shadow: 0 0 12px var(--accent-1);
+    animation: helixMove 6s linear infinite;
+}
+
+/* Each dot rotates around center & moves sideways */
+@keyframes helixMove {
+    0% {
+        transform: rotate(0deg) translateY(90px) rotate(0deg);
+        left: 0%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(360deg) translateY(90px) rotate(-360deg);
+        left: 100%;
+        opacity: 0;
+    }
+}
+
+/* Container itself scrolling left to right */
+@keyframes floatHelix {
+    0% {
+        transform: translateY(-50%) translateX(0);
+    }
+    100% {
+        transform: translateY(-50%) translateX(100vw);
+    }
+}
+
+/* Cursor spark */
+.spark {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-1);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--accent-1), 0 0 30px #00b4db;
+    pointer-events: none;
+    animation: spark-fade 0.5s forwards;
+    z-index: 9999;
+}
+
+@keyframes spark-fade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    70% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+}
+
+/* Custom cursor */
+.custom-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(0, 245, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    transition: transform 0.1s ease;
+}
+
+.custom-cursor.hover {
+    transform: translate(-50%, -50%) scale(1.5);
+    background: rgba(0, 245, 255, 0.5);
+}
+
+/* Rain animation */
+.rain {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.drop {
+    position: absolute;
+    width: 2px;
+    height: 25px;
+    background: linear-gradient(to bottom, rgba(0, 245, 255, 0.4), rgba(0, 180, 219, 0.2));
+    border-radius: 0 0 5px 5px;
+    animation: rain-fall linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes rain-fall {
+    0% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+.ripple {
+    position: absolute;
+    width: 15px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(0, 245, 255, 0.3);
+    animation: ripple-effect 1.5s forwards;
+    opacity: 0;
+}
+
+@keyframes ripple-effect {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* -----------------------
+   Main content styles
+   ----------------------- */
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: transparent;
+    padding: 18px;
+    border-radius: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.site-logo {
+    width: 54px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,180,219,0.12);
+    transition: transform .25s ease, box-shadow .25s ease;
+    display: inline-block;
+}
+
+.logo:hover .site-logo {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0,180,219,0.18);
+}
+
+.logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    color: var(--text);
+    display: inline-block;
+}
+
+.theme-toggle-wrap {
+    display: flex;
+    align-items: center;
+}
+
+#theme-toggle {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    background: linear-gradient(to right, #e6f7ff, var(--accent-1), #00b4db);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 5px 15px rgba(0, 150, 255, 0.2);
+    animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.lead {
+    color: var(--muted);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 1.5s ease-out 0.3s both;
+}
+
+/* Upload card */
+.upload-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    display: flex;
+    gap: 23rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    animation: fadeIn 1.5s ease-out 0.6s both;
+}
+
+/* new upload controls wrapper */
+.upload-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* inline upload status previously — now handled inside button; fallback kept */
+.fallback-status {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+#fileInput {
+    flex: 1;
+    padding: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 20, 40, 0.3);
+    color: var(--text);
+    font-family: 'Source Sans Pro', sans-serif;
+    transition: all 0.3s ease;
+    cursor: none;
+    font-size: 1.25rem;
+}
+
+#fileInput:focus {
+    outline: none;
+    border-color: var(--accent-1);
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+}
+
+/* main upload button */
+.upload-btn {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
+    color: #fff;
+    border: none;
+    padding: 0.9rem 1.4rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 22px rgba(0, 180, 219, 0.22);
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease, opacity .12s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 160px;
+    justify-content: center;
+}
+
+/* hover micro-lift */
+.upload-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 180, 219, 0.30);
+}
+
+/* disabled state while uploading */
+.upload-btn:disabled {
+    opacity: 0.85;
+    cursor: default;
+    transform: none;
+}
+
+/* spinner when loading (CSS pseudo-element) */
+.upload-btn.loading::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.95);
+    border-top-color: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 6px;
+    animation: spin 0.9s linear infinite;
+}
+
+/* completed check mark */
+.upload-btn.success::after {
+    content: "✓";
+    display: inline-block;
+    margin-left: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #e6ffef;
+}
+
+/* spinner keyframes */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+#uploadBtn {
+    /* kept for compatibility (button id used in JS) - no visual override needed here */
+}
+
+/* upload button text sizing for smaller screens */
+@media (max-width: 480px) {
+    .upload-btn {
+        font-size: 0.95rem;
+        padding: 0.75rem 1rem;
+        min-width: 140px;
+    }
+}
+
+#uploadBtn:hover {
+    /* no change; hover handled above for .upload-btn */
+}
+
+#status {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+#resultArea {
+    margin-top: 2rem;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--accent-1);
+}
+
+#summaryText {
+    color: var(--muted);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.chart-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.chart-wrapper {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(0, 20, 40, 0.3);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--muted);
+}
+
+th {
+    font-weight: 600;
+    color: var(--accent-1);
+}
+
+/* Result controls: download button right, status left */
+.result-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between; /* status left, download button right */
+    margin-bottom: 12px;
+}
+
+/* small download status display */
+.download-status {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* Download PDF button */
+.download-btn {
+  background: linear-gradient(to right, var(--accent-2), var(--accent-1));
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 5px 12px rgba(0, 180, 219, 0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-size: 0.85rem;
+}
+.download-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 180, 219, 0.4); }
+
+/* Footer */
+.site-footer {
+    margin-top: 15rem;
+    padding: 2rem 0;
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .upload-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #fileInput {
+        width: 100%;
+    }
+
+    .chart-container {
+        flex-direction: column;
+    }
+
+    body {
+        cursor: auto;
+    }
+
+    .custom-cursor {
+        display: none;
+    }
+
+    .wave-container {
+        height: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .dna-helix {
+        display: none;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+}
+
+.glass-card {
+  width: 1600px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* -------- PDF-friendly temporary overrides (used during capture) -------- */
+.pdf-friendly {
+  position: fixed;
+  left: -9999px; /* offscreen so it doesn't disturb layout */
+  top: 0;
+  overflow: visible !important;
+  background: #ffffff !important; /* white PDF background for best readability */
+  width: auto;
+  z-index: 999999;
+  color: #000000 !important; /* force black text in PDF */
+  font-family: Arial, Helvetica, sans-serif !important; /* reliable fallback */
+  font-size: 18px !important; /* base (bigger) font for PDF */
+  line-height: 1.35 !important;
+  -webkit-print-color-adjust: exact !important;
+}
+
+/* Force solid black text and remove problematic visual effects */
+.pdf-friendly, .pdf-friendly * {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  background-image: none !important;
+  background: transparent !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* Headings: render larger and black */
+.pdf-friendly h1 {
+  font-size: 34px !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+}
+.pdf-friendly h2 {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+}
+.pdf-friendly .lead {
+  font-size: 16px !important;
+  color: #000000 !important;
+}
+
+/* Table text larger and black */
+.pdf-friendly table, .pdf-friendly th, .pdf-friendly td {
+  color: #000000 !important;
+  border-color: rgba(0,0,0,0.08) !important;
+  font-size: 14px !important;
+}
+
+/* Chart captions / small text */
+.pdf-friendly .chart-wrapper, .pdf-friendly canvas, .pdf-friendly .chart-legend {
+  color: #000000 !important;
+}
+
+/* Make sure links look like plain text in PDF (black) */
+.pdf-friendly a {
+  color: #000000 !important;
+  text-decoration: none !important;
+}

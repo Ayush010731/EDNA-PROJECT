@@ -1,0 +1,6 @@
+{
+  "n_asvs": 171746,
+  "k": 6,
+  "kmer_vocab_size": 4096,
+  "pca_dim": 64
+}

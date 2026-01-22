@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eDNA Classifier</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- NOTE: html2canvas & jspdf are dynamically loaded by main.js -->
+  </head>
+  <body>
+    <!-- Scientific background elements -->
+    <div class="scientific-background" aria-hidden="true">
+      <div class="grid-overlay"></div>
+      <div class="dna-helix" aria-hidden="true"></div>
+
+      <!-- wave-container used for fishes only -->
+      <div class="wave-container" aria-hidden="true"></div>
+
+      <div class="rain" id="rain-container" aria-hidden="true"></div>
+    </div>
+
+    <!-- Custom cursor -->
+    <div class="custom-cursor" aria-hidden="true"></div>
+
+    <div class="container">
+      <header>
+        <a href="/" class="logo" aria-label="Deep Origin - home">
+          <span class="logo-text">Deep Origin Lab</span>
+        </a>
+      </header>
+
+      <h1>eDNA Classifier — Upload FASTA</h1>
+      <p class="lead">Upload FASTA sequences (one or many). The app will classify sequences using our provided model artifacts.</p>
+
+      <div class="upload-card">
+        <input id="fileInput" type="file" accept=".fasta,.fa,.txt" />
+        <!-- upload section with inline status inside the button -->
+        <div class="upload-controls">
+          <button id="uploadBtn" class="upload-btn">Upload &amp; Analyze</button>
+        </div>
+        <div id="status" class="fallback-status" aria-live="polite"></div>
+      </div>
+
+      <div id="resultArea" class="hidden">
+        <div class="result-controls">
+          <div id="downloadStatus" class="download-status" aria-live="polite" style="color:var(--muted); font-size:0.9rem;"></div>
+          <!-- Download PDF button - shown when results available; positioned right -->
+          <button id="downloadPdfBtn" class="download-btn" type="button" title="Download result as PDF">Download PDF</button>
+        </div>
+
+        <h2>Summary</h2>
+        <div id="summaryText"></div>
+
+        <h2>Cluster Counts</h2>
+        <div class="chart-container">
+          <div class="chart-wrapper">
+            <canvas id="taxaChart" height="200"></canvas>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="taxaPieChart" height="200"></canvas>
+          </div>
+        </div>
+
+        <h2>Top Entries</h2>
+        <table id="entriesTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Label</th>
+              <th>Confidence</th>
+              <th>Novel</th>
+              <th>Length</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="site-footer ">
+      <p>Made with for marine biodiversity research</p>
+    </footer>
+
+    <script src="/static/main.js"></script>
+  </body>
+</html>
