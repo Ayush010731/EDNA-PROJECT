@@ -122,7 +122,7 @@ export const OverviewSection = () => {
           size="lg"
           className="text-lg px-12 py-6 animate-fade-in-up [animation-delay:0.6s] bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600"
         >
-          <a href="http://127.0.0.1:5000/" target="_blank" rel="noopener noreferrer">
+          <a href="https://edna-project.onrender.com" target="_blank" rel="noopener noreferrer">
             Launch Analysis Platform
           </a>
         </Button>
